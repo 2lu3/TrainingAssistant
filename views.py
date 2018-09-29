@@ -31,8 +31,8 @@ def index():
     global positive
     global negative
 
-    positive = open('info.dat', 'a')
-    negative = open('bg.txt', 'a')
+    positive = open('info.dat', 'w')
+    negative = open('bg.txt', 'w')
 
     # 最初の画像
     imgsrc = os.path.join(image_dir, images[pos])
@@ -52,8 +52,7 @@ def _next():
     # その画像をスキップするか
     skip = request.args.get('skip')
 
-    if skip == '0':
-
+    if skip != '-1':
         # 囲まれた範囲の座標
         coords = request.args.get('coords')
         coords = json.loads(coords)

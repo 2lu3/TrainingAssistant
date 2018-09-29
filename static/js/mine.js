@@ -9,19 +9,22 @@ onload = function () {
     resetstatus();
   });
   $('#skip').click(function () {
-    nextajax(skip = 1);
+    nextajax(skip = -1);
   })
   $('#next').live('click', function () {
     nextajax(skip = 0);
   });
   $('#checkbox1').click(function () {
+    $("#checkbox1").prop("checked", false);
     nextajax(skip = 1);
   });
   $('#checkbox2').click(function () {
-    nextajax(skip = 1);
+    $("#checkbox2").prop("checked", false);
+    nextajax(skip = 2);
   });
   $('#checkbox3').click(function () {
-    nextajax(skip = 1);
+    $("#checkbox3").prop("checked", false);
+    nextajax(skip = 3);
   })
   $('.bar').css({ 'width': count * 100 / imgnum + '%' });
 };
