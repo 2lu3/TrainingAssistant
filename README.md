@@ -1,29 +1,31 @@
-## Set up
+## このレポジトリについて
+https://github.com/shkh/TrainingAssistant からフォークしてきたものであり、日本語化・Python3に対応させています
 
-1. Clone to your computer: 
+## セットアップ
+Git,Pythonが使える状態にあることを前提とします。
 
-		% git clone git@github.com:shkh/TrainingAssistant.git
+1. プログラムをPCにクローンしましょう
 
-2. Add Jcrop: 
+		git clone https://github.com/2lu3/TrainingAssistant.git
 
-		% cd TrainingAssistant
-		% git submodule init
-		% git submodule update
-		% cd static/Jcrop
-		% git checkout master
+2. 事前設定1
 
-3. Install python modules
-		
-		% pip install -r freezed.txt
+		cd TrainingAssistant
+		git submodule init
+		git submodule update
 
-4. Add images into `static/img`
+3. 事前設定2
 
-## Run server
+		pip install -r freezed.txt
 
-    % python views.py
+4. 画像を `static/img` に保存してください
 
-This command starts the Flask server on port 5000, visit `http://localhost:5000`.
+## プログラムを実行します
 
-![リス可愛い](http://farm9.staticflickr.com/8334/8131692997_6cd40c380a_z.jpg)
+    python views.py
 
-After all images will be processed, you will get `info.dat` and `bg.txt`; Respectively the list of `positive` samples and the list of `negative` samples.
+上のコマンドを実行したら、ブラウザーで、 `http://localhost:5000` をURLの場所に入れてください。
+
+Skipを押すと、その画像を飛ばし(正解データと不正解データのどちらにも入りません)、赤色の枠線がない状態でNextを押すと不正解データになり、赤色の枠線がある状態でNextを押すと正解データとなります。
+
+正解データは `info.dat` に、不正解データは `bg.txt` に保存されます。
