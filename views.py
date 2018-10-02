@@ -4,6 +4,12 @@ import sys
 import json
 import re
 import sys
+import glob
+
+X_list = []
+Y_list = []
+
+image_data = []
 
 app = Flask(__name__)
 app.secret_key = '佐久間さん可愛い'
@@ -16,6 +22,12 @@ images = [image for image in os.listdir(
     image_dir) if re.match(image_ptrn, image)]
 if not len(images):
     sys.exit('Error: Could not find images')
+
+# print(image_dir)
+for img in images:
+    image_data.append(glob.glob(image_dir + '/' + img))
+
+print(image_data)
 
 logf = open('log.dat', 'w')
 
@@ -33,6 +45,10 @@ def index():
 
     positive = open('info.dat', 'w')
     negative = open('bg.txt', 'w')
+    positive.close()
+    negative.close()
+    positive = open('info.dat', 'a')
+    negative = open('bg.txt', 'a')
 
     # 最初の画像
     imgsrc = os.path.join(image_dir, images[pos])
@@ -62,6 +78,7 @@ def _next():
 
         # 正例か負例か
         if len(coords) == 0:
+            X_list.append([0, 0, 0, 0, 0])
             negative.write(''.join([image_path, '\n']))
             logf.write(''.join([image_path, '\n']))
             logf.flush()
@@ -71,12 +88,13 @@ def _next():
             for coord in coords:
                 s = '  '.join([s, ' '.join([str(int(e)) for e in coord])])
 
-            positive.write('%s  %d%s\n' % (image_path, len(coords), s))
-            logf.write("%s %d%s\n" % (image_path, len(coords), s))
+            positive.write('%s %s  %d%s\n' % (skip, image_path, len(coords), s))
+            logf.write("%s %s %d%s\n" % (skip, image_path, len(coords), s))
+            print("hey")
             logf.flush()
 
-    # まだ画像があるか
-    if pos+1 >= len(images):
+        # まだ画像があるか
+    if pos+1 >= len(images) and (skip != '-1' or skip != '0'):
         imgsrc = ""
         finished = True
         pos = pos + 1
@@ -84,9 +102,11 @@ def _next():
         negative.close()
         positive.close()
     else:
+        imgsrc = os.path.join(image_dir, images[pos])
+        if skip == '0' or skip == '-1':
+            imgsrc = os.path.join(image_dir, images[pos+1])
+            pos = pos + 1
         finished = False
-        imgsrc = os.path.join(image_dir, images[pos+1])
-        pos = pos + 1
 
     return jsonify(imgsrc=imgsrc, finished=finished, count=pos)
 
