@@ -13,31 +13,43 @@ onload = function () {
   $('#skip').click(function () {
     nextajax(skip = -2);
     $("#next").removeClass("disabled");
+    $("#done").addClass("disabled");
   })
   // 完了
   $('#done').click(function () {
+    if ($('#done').prop("disabled") == false) {
+      return;
+    }
     $("#next").removeClass("disabled");
+    $("#done").addClass("disabled");
     nextajax(skip = -1);
   })
   // 次
   $('#next').live('click', function () {
+    if ($('#next').prop("disabled") == false) {
+      return;
+    }
+    $("#done").addClass("disabled");
     nextajax(skip = 0);
   });
   // カテゴリー1
   $('#checkbox1').click(function () {
     $("#next").addClass("disabled");
+    $("#done").removeClass("disabled");
     $("#checkbox1").prop("checked", false);
     nextajax(skip = 1);
   });
   // カテゴリー2
   $('#checkbox2').click(function () {
     $("#next").addClass("disabled");
+    $("#done").removeClass("disabled");
     $("#checkbox2").prop("checked", false);
     nextajax(skip = 2);
   });
   // カテゴリー3
   $('#checkbox3').click(function () {
     $("#next").addClass("disabled");
+    $("#done").removeClass("disabled");
     $("#checkbox3").prop("checked", false);
     nextajax(skip = 3);
   })
