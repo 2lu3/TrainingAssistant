@@ -1,0 +1,4 @@
+1 static\img\image(2).png  1  543 476 478 153
+2 static\img\image(2).png  1  373 666 711 155
+3 static\img\image(2).png  1  570 406 680 312
+1 static\img\image(3).png  3  494 454 201 175  948 376 140 187  1169 569 109 171

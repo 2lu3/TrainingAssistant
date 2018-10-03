@@ -12,45 +12,87 @@ onload = function () {
   // スキップ
   $('#skip').click(function () {
     nextajax(skip = -2);
-    $("#next").removeClass("disabled");
-    $("#done").addClass("disabled");
+    $("#next").prop("disabled", false);
+    $("#done").prop("disabled", true);
+    $("#checkbox1").prop("checked", false);
+    $("#checkbox2").prop("checked", false);
+    $("#checkbox3").prop("checked", false);
+    $("#checkbox1").prop("disabled", true);
+    $("#checkbox2").prop("disabled", true);
+    $("#checkbox3").prop("disabled", true);
   })
   // 完了
   $('#done').click(function () {
-    if ($('#done').prop("disabled") == false) {
+    if ($('#done').prop("disabled") == true) {
       return;
     }
-    $("#next").removeClass("disabled");
-    $("#done").addClass("disabled");
+    $("#next").prop("disabled", false);
+    $("#done").prop("disabled", true);
+    $("#checkbox1").prop("checked", false);
+    $("#checkbox2").prop("checked", false);
+    $("#checkbox3").prop("checked", false);
+    $("#checkbox1").prop("disabled", true);
+    $("#checkbox2").prop("disabled", true);
+    $("#checkbox3").prop("disabled", true);
     nextajax(skip = -1);
   })
   // 次
   $('#next').live('click', function () {
-    if ($('#next').prop("disabled") == false) {
+    if ($('#next').prop("disabled") == true) {
       return;
     }
-    $("#done").addClass("disabled");
+    $("#done").prop("disabled", true);
+    $("#checkbox1").prop("checked", false);
+    $("#checkbox2").prop("checked", false);
+    $("#checkbox3").prop("checked", false);
+    $("#checkbox1").prop("disabled", true);
+    $("#checkbox2").prop("disabled", true);
+    $("#checkbox3").prop("disabled", true);
     nextajax(skip = 0);
   });
   // カテゴリー1
   $('#checkbox1').click(function () {
-    $("#next").addClass("disabled");
-    $("#done").removeClass("disabled");
-    $("#checkbox1").prop("checked", false);
+    if ($("#checkbox1").prop("checked") == false) {
+      $("#checkbox1").prop("checked", true);
+      alert("同じ画像で同じカテゴリーを登録するには、赤い枠を複数描いてからカテゴリーをクリックしてください");
+      return;
+    }
+    if ($("#checkbox1").prop("disabled") == true) {
+      alert("赤い枠を選択してから、カテゴリーをクリックしてください");
+      return;
+    }
+    $("#next").prop("disabled", true);
+    $("#done").prop("disabled", false);
     nextajax(skip = 1);
   });
   // カテゴリー2
   $('#checkbox2').click(function () {
-    $("#next").addClass("disabled");
-    $("#done").removeClass("disabled");
-    $("#checkbox2").prop("checked", false);
+    if ($("#checkbox2").prop("checked") == false) {
+      $("#checkbox2").prop("checked", true)
+      alert("同じ画像で同じカテゴリーを登録するには、赤い枠を複数描いてからカテゴリーをクリックしてください");
+      return;
+    }
+    if ($("#checkbox2").prop("disabled") == true) {
+      alert("赤い枠を選択してから、カテゴリーをクリックしてください");
+      return;
+    }
+    $("#next").prop("disabled", true);
+    $("#done").prop("disabled", false);
     nextajax(skip = 2);
   });
   // カテゴリー3
   $('#checkbox3').click(function () {
-    $("#next").addClass("disabled");
-    $("#done").removeClass("disabled");
-    $("#checkbox3").prop("checked", false);
+    if ($("#checkbox3").prop("checked") == false) {
+      $("#checkbox3").prop("checked", true);
+      alert("同じ画像で同じカテゴリーを登録するには、赤い枠を複数描いてからカテゴリーをクリックしてください");
+      return;
+    }
+    if ($("#checkbox3").prop("disabled") == true) {
+      alert("赤い枠を選択してから、カテゴリーをクリックしてください");
+      return;
+    }
+    $("#next").prop("disabled", true);
+    $("#done").prop("disabled", false);
     nextajax(skip = 3);
   })
   $('.bar').css({ 'width': count * 100 / imgnum + '%' });
@@ -60,6 +102,15 @@ function draw() {
   var image = new Image();
   image.src = imgsrc;
   image.onload = function () {
+    if ($("#checkbox1").prop("checked") == true || $("#checkbox2").prop("checked") == true || $("#checkbox3").prop("checked") == true) {
+      $("#skip").prop("disabled", true);
+      $("#next").prop("disabled", true);
+      $("#done").prop("disabled", false);
+    } else {
+      $("#skip").prop("disabled", false);
+      $("#next").prop("disabled", false);
+      $("#done").prop("disabled", false);
+    }
     var wid = image.naturalWidth;
     var hei = image.naturalHeight;
     $('.main-wrapper').css({ 'width': wid, 'minWidth': wid });
@@ -81,10 +132,25 @@ function draw() {
 }
 
 function selected(c) {
+  $("#skip").prop("disabled", true);
+  $("#next").prop("disabled", true);
+  $("#done").prop("disabled", true);
   curcrd = [c.x, c.y, c.w, c.h];
 }
 
 function released(c) {
+  $("#skip").prop("disabled", true);
+  $("#next").prop("disabled", true);
+  $("#done").prop("disabled", true);
+  if ($("#checkbox1").prop("checked") != true) {
+    $("#checkbox1").prop("disabled", false);
+  }
+  if ($("#checkbox2").prop("checked") != true) {
+    $("#checkbox2").prop("disabled", false);
+  }
+  if ($("#checkbox3").prop("checked") != true) {
+    $("#checkbox3").prop("disabled", false);
+  }
   coords.push(curcrd);
   context.beginPath();
   context.lineWidth = 3;
