@@ -5,24 +5,39 @@ var context;
 
 onload = function () {
   draw();
+  // リセット
   $('#reset').click(function () {
     resetstatus();
   });
+  // スキップ
   $('#skip').click(function () {
+    nextajax(skip = -2);
+    $("#next").removeClass("disabled");
+  })
+  // 完了
+  $('#done').click(function () {
+    $("#next").removeClass("disabled");
     nextajax(skip = -1);
   })
+  // 次
   $('#next').live('click', function () {
     nextajax(skip = 0);
   });
+  // カテゴリー1
   $('#checkbox1').click(function () {
+    $("#next").addClass("disabled");
     $("#checkbox1").prop("checked", false);
     nextajax(skip = 1);
   });
+  // カテゴリー2
   $('#checkbox2').click(function () {
+    $("#next").addClass("disabled");
     $("#checkbox2").prop("checked", false);
     nextajax(skip = 2);
   });
+  // カテゴリー3
   $('#checkbox3').click(function () {
+    $("#next").addClass("disabled");
     $("#checkbox3").prop("checked", false);
     nextajax(skip = 3);
   })

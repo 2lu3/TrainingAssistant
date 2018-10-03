@@ -43,12 +43,12 @@ def index():
     global positive
     global negative
 
-    positive = open('info.dat', 'w')
-    negative = open('bg.txt', 'w')
+    positive = open('positive.txt', 'w')
+    negative = open('negative.txt', 'w')
     positive.close()
     negative.close()
-    positive = open('info.dat', 'a')
-    negative = open('bg.txt', 'a')
+    positive = open('positive.txt', 'a')
+    negative = open('negative.txt', 'a')
 
     # 最初の画像
     imgsrc = os.path.join(image_dir, images[pos])
@@ -68,7 +68,7 @@ def _next():
     # その画像をスキップするか
     skip = request.args.get('skip')
 
-    if skip != '-1':
+    if skip != '-2':
         # 囲まれた範囲の座標
         coords = request.args.get('coords')
         coords = json.loads(coords)
@@ -77,7 +77,7 @@ def _next():
         image_path = os.path.join(image_dir, images[pos])
 
         # 正例か負例か
-        if len(coords) == 0:
+        if skip == '0' or len(coords) == 0:
             X_list.append([0, 0, 0, 0, 0])
             negative.write(''.join([image_path, '\n']))
             logf.write(''.join([image_path, '\n']))
@@ -90,11 +90,10 @@ def _next():
 
             positive.write('%s %s  %d%s\n' % (skip, image_path, len(coords), s))
             logf.write("%s %s %d%s\n" % (skip, image_path, len(coords), s))
-            print("hey")
             logf.flush()
 
         # まだ画像があるか
-    if pos+1 >= len(images) and (skip != '-1' or skip != '0'):
+    if pos+1 >= len(images) and (skip == '-2' or skip == '0' or skip == '-1'):
         imgsrc = ""
         finished = True
         pos = pos + 1
@@ -103,7 +102,7 @@ def _next():
         positive.close()
     else:
         imgsrc = os.path.join(image_dir, images[pos])
-        if skip == '0' or skip == '-1':
+        if skip == '0' or skip == '-2' or skip == '-1':
             imgsrc = os.path.join(image_dir, images[pos+1])
             pos = pos + 1
         finished = False
