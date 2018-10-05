@@ -77,7 +77,7 @@ def _next():
         image_path = os.path.join(image_dir, images[pos])
 
         # 正例か負例か
-        if skip == '0' or len(coords) == 0:
+        if skip == '0':
             X_list.append([0, 0, 0, 0, 0])
             negative.write(''.join([image_path, '\n']))
             logf.write(''.join([image_path, '\n']))

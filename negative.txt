@@ -1,3 +1,1 @@
-static\img\image(2).png
 static\img\image(3).png
-static\img\image(4).png
